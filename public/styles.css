@@ -1,0 +1,14 @@
+:root{
+  --max-width:720px;
+  --gap:16px;
+}
+body{font-family:system-ui,Segoe UI,Roboto,Arial;display:flex;align-items:center;justify-content:center;min-height:100vh;margin:0;padding:24px;background:#f7f7f8}
+.container{width:100%;max-width:var(--max-width);background:#fff;padding:24px;border-radius:8px;box-shadow:0 6px 18px rgba(0,0,0,0.06)}
+h1{margin-top:0}
+form{display:flex;gap:var(--gap);align-items:center}
+input[type=file]{flex:1}
+button{padding:8px 12px;border-radius:6px;border:1px solid #333;background:#111;color:#fff;cursor:pointer}
+.result{margin-top:20px}
+.result img{max-width:100%;height:auto;border:1px solid #eee;padding:8px;border-radius:6px}
+
+
