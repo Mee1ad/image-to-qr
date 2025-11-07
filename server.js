@@ -2,15 +2,23 @@ const express = require('express');
 const multer = require('multer');
 const path = require('path');
 const fs = require('fs');
+const os = require('os');
 const QRCode = require('qrcode');
 
 const app = express();
 const PORT = process.env.PORT || 3000;
 
-// ensure uploads dir exists
-const UPLOAD_DIR = path.join(__dirname, 'uploads');
-if (!fs.existsSync(UPLOAD_DIR)) {
-  fs.mkdirSync(UPLOAD_DIR, { recursive: true });
+// configure uploads directory; allow override via env and fallback to OS temp dir for serverless
+const DEFAULT_UPLOAD_DIR = path.join(os.tmpdir(), 'uploads');
+let UPLOAD_DIR = process.env.UPLOAD_DIR ? path.resolve(process.env.UPLOAD_DIR) : DEFAULT_UPLOAD_DIR;
+try {
+  if (!fs.existsSync(UPLOAD_DIR)) {
+    fs.mkdirSync(UPLOAD_DIR, { recursive: true });
+  }
+} catch (err) {
+  console.warn(`Could not create uploads dir at ${UPLOAD_DIR}, falling back to OS temp dir:`, err);
+  UPLOAD_DIR = os.tmpdir();
+  try { fs.mkdirSync(UPLOAD_DIR, { recursive: true }); } catch (e) { /* ignore */ }
 }
 
 const storage = multer.diskStorage({
